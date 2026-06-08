@@ -4,6 +4,10 @@
 This is a Discovery and Mitigation Tool for the Miasma malware or
 Miasma worm which is distributed by TeamPCP also known as APT28/29.
 
+Detailed Blogpost about the Miasma Malware:
+
+https://cookie.engineer/weblog/articles/malware-insights-miasma-campaign.html
+
 
 ### Download
 
@@ -12,7 +16,7 @@ If you don't have `go` installed, ready-to-use downloads are available in the
 on GitHub.
 
 
-### RECOMMENDED USAGE: Worm Discovery and Mitigation
+### Usage
 
 This shows how to:
 
@@ -46,7 +50,7 @@ antimiasma mitigate /tmp;
 
 ### Implementation Status
 
-See [utils/miasma](/utils/miasma) and [utils/antimiasma](/utils/antimiasma) folders for implementation details.
+Take a look at the [utils/miasma](/utils/miasma) folder for implementation details.
 
 | Infected File             | Description                           | Discover | Mitigate |
 |:--------------------------|:--------------------------------------|:--------:|:--------:|
@@ -60,8 +64,8 @@ See [utils/miasma](/utils/miasma) and [utils/antimiasma](/utils/antimiasma) fold
 
 ### Notes
 
-This Anti-Worm has been implemented with an abliterated `qwen3-coder:30b` `@Q8` running
-inside the [exocomp](https://github.com/cookiengineer/exocomp) agentic environment.
+This Mitigation Tool has been implemented with an abliterated `qwen3-coder:30b@Q8` running
+inside the [exocomp](https://github.com/cookiengineer/exocomp) Agentic Environment.
 
 
 ### Acknowledgements
