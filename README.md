@@ -50,7 +50,7 @@ antimiasma mitigate /tmp;
 
 ### Implementation Status
 
-Take a look at the [utils/miasma](/utils/miasma) folder for implementation details.
+Take a look at the [utils/miasma](/source/utils/miasma) folder for implementation details.
 
 | Infected File             | Description                           | Discover | Mitigate |
 |:--------------------------|:--------------------------------------|:--------:|:--------:|
