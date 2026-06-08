@@ -35,7 +35,7 @@ A minimal Miasma implant sample is available at [miasma-sample](https://github.c
 That repository contains the spreading mechanisms and infiltrated files, but not the actual malware implant.
 
 If you're unsure whether `antimiasma` works on your system, you can clone the `miasma-sample` repository safely
-to test the discover and mitigate actions against.
+to test the `antimiasma discover` and `antimiasma mitigate` actions against it.
 
 ```bash
 git clone https://github.com/cookiengineer/miasma-sample.git /tmp/miasma-sample;
