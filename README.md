@@ -56,18 +56,18 @@ PS: If you have a malware sample of ongoing miasma campaigns that are not suppor
 don't hesitate to file an issue and send me the malware sample so that I can debug/reverse
 engineer it and add support for removal. Thank you!
 
-| Name        | Type          | Infected File                 | Description                                     | Discover | Mitigate |
-|:------------|:--------------|:------------------------------|:------------------------------------------------|:--------:|:--------:|
-| Claude Code | IDE           | `.claude/settings.json`       | executes on Claude Code session start           | [x]      | [x]      |
-| Cursor      | IDE           | `.cursor/rules/setup.mdc`     | executes when opening repo in Cursor            | [x]      | [x]      |
-| Gemini      | IDE           | `.gemini/settings.json`       | executes on Gemini session start                | [x]      | [x]      |
-| VSCode      | IDE           | `.vscode/tasks.json`          | executes when opening repo or folder in VS Code | [x]      | [x]      |
-| Composer    | PHP Packages  | `composer.json`               | executes on `composer run` script               | [x]      | [x]      |
-| Go          | Go Packages   | `go.mod`                      | executes on `go generate` and `go build`        | TODO     | TODO     |
-| NPM         | NPM Packages  | `package.json`                | executes on `npx` or `npm run` script           | [x]      | [x]      |
-| PIP         | PyPI Packages | `*-setup.pth` and `_index.js` | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
-| Miasma      | Implant       | `.github/setup.js`            | the Miasma campaign worm implant                | [x]      | [x]      |
-| Miasma      | Implant       | `_setup.js`                   | the Miasma "Hades" campaign worm implant        | [x]      | [x]      |
+| Name          | Type          | Infected File                 | Description                                     | Discover | Mitigate |
+|:--------------|:--------------|:------------------------------|:------------------------------------------------|:--------:|:--------:|
+| Claude Code   | IDE           | `.claude/settings.json`       | executes on Claude Code session start           | [x]      | [x]      |
+| Cursor        | IDE           | `.cursor/rules/setup.mdc`     | executes when opening repo in Cursor            | [x]      | [x]      |
+| Gemini        | IDE           | `.gemini/settings.json`       | executes on Gemini session start                | [x]      | [x]      |
+| VSCode        | IDE           | `.vscode/tasks.json`          | executes when opening repo or folder in VS Code | [x]      | [x]      |
+| Composer      | PHP Packages  | `composer.json`               | executes on `composer run` script               | [x]      | [x]      |
+| Go            | Go Packages   | `go.mod`                      | executes on `go generate` and `go build`        | TODO     | TODO     |
+| NPM           | NPM Packages  | `package.json`                | executes on `npx` or `npm run` script           | [x]      | [x]      |
+| PIP           | PyPI Packages | `*-setup.pth` and `_index.js` | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
+| Miasma Blight | Implant       | `.github/setup.js`            | the Miasma "Blight" campaign worm implant       | [x]      | [x]      |
+| Miasma Hades  | Implant       | `_setup.js`                   | the Miasma "Hades" campaign worm implant        | [x]      | [x]      |
 
 [1] `pip install` commands use compressed `whl` files for distribution. The `*-setup.pth` cannot be detected.
     Only after an infected package already ran the malware payload, the Miasma implant can be removed.
@@ -93,7 +93,6 @@ inside the [exocomp](https://github.com/cookiengineer/exocomp) Agentic Environme
 - https://safedep.io/miasma-worm-ai-coding-agent-config-injection/
 - https://socket.dev/blog/shai-hulud-descends-to-hades-miasma-pypi-wave
 - https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents
-
 
 
 ### License
