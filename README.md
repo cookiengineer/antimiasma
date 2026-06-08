@@ -63,7 +63,7 @@ engineer it and add support for removal. Thank you!
 | Gemini      | IDE           | `.gemini/settings.json`       | executes on Gemini session start                | [x]      | [x]      |
 | VSCode      | IDE           | `.vscode/tasks.json`          | executes when opening repo or folder in VS Code | [x]      | [x]      |
 | Composer    | PHP Packages  | `composer.json`               | executes on `composer run` script               | [x]      | [x]      |
-| Go          | Go Packages   | `go.mod`                      | executes on `go generate`                       | TODO     | TODO     |
+| Go          | Go Packages   | `go.mod`                      | executes on `go generate` and `go build`        | TODO     | TODO     |
 | NPM         | NPM Packages  | `package.json`                | executes on `npx` or `npm run` script           | [x]      | [x]      |
 | PIP         | PyPI Packages | `*-setup.pth` and `_index.js` | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
 | Miasma      | Implant       | `.github/setup.js`            | the Miasma campaign worm implant                | [x]      | [x]      |
@@ -91,6 +91,9 @@ inside the [exocomp](https://github.com/cookiengineer/exocomp) Agentic Environme
 
 - https://access.redhat.com/security/vulnerabilities/RHSB-2026-006
 - https://safedep.io/miasma-worm-ai-coding-agent-config-injection/
+- https://socket.dev/blog/shai-hulud-descends-to-hades-miasma-pypi-wave
+- https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents
+
 
 
 ### License
