@@ -52,15 +52,25 @@ antimiasma mitigate /tmp;
 
 Take a look at the [utils/miasma](/source/utils/miasma) folder for implementation details.
 
-| Infected File             | Description                           | Discover | Mitigate |
-|:--------------------------|:--------------------------------------|:--------:|:--------:|
-| `.claude/settings.json`   | triggers on Claude Code session start | [x]      | [x]      |
-| `.cursor/rules/setup.mdc` | triggers when opening repo in Cursor  | [x]      | [x]      |
-| `.gemini/settings.json`   | triggers on Gemini session start      | [x]      | [x]      |
-| `.vscode/tasks.json`      | triggers when opening repo in VS Code | [x]      | [x]      |
-| `package.json`            | hijacks `npm test` script             | [x]      | [x]      |
-| `.github/setup.js`        | the Miasma worm implant               | [x]      | [x]      |
+PS: If you have a malware sample of ongoing miasma campaigns that are not supported, PLEASE
+don't hesitate to file an issue and send me the malware sample so that I can debug/reverse
+engineer it and add support for removal. Thank you!
 
+| Name        | Type          | Infected File                 | Description                                     | Discover | Mitigate |
+|:------------|:--------------|:------------------------------|:------------------------------------------------|:--------:|:--------:|
+| Claude Code | IDE           | `.claude/settings.json`       | executes on Claude Code session start           | [x]      | [x]      |
+| Cursor      | IDE           | `.cursor/rules/setup.mdc`     | executes when opening repo in Cursor            | [x]      | [x]      |
+| Gemini      | IDE           | `.gemini/settings.json`       | executes on Gemini session start                | [x]      | [x]      |
+| VSCode      | IDE           | `.vscode/tasks.json`          | executes when opening repo or folder in VS Code | [x]      | [x]      |
+| Composer    | PHP Packages  | `composer.json`               | executes on `composer run` script               | [x]      | [x]      |
+| Go          | Go Packages   | `go.mod`                      | executes on `go generate`                       | TODO     | TODO     |
+| NPM         | NPM Packages  | `package.json`                | executes on `npx` or `npm run` script           | [x]      | [x]      |
+| PIP         | PyPI Packages | `*-setup.pth` and `_index.js` | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
+| Miasma      | Implant       | `.github/setup.js`            | the Miasma campaign worm implant                | [x]      | [x]      |
+| Miasma      | Implant       | `_setup.js`                   | the Miasma "Hades" campaign worm implant        | [x]      | [x]      |
+
+[1] `pip install` commands use compressed `whl` files for distribution. The `*-setup.pth` cannot be detected.
+    Only after an infected package already ran the malware payload, the Miasma implant can be removed.
 
 ### Notes
 

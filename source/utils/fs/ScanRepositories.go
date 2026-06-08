@@ -5,25 +5,33 @@ import "path/filepath"
 
 func ScanRepositories(root string) []string {
 
-	repositories := make([]string, 0)
+	found := make(map[string]bool)
 
-	filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+	filepath.WalkDir(root, func(path string, entry fs.DirEntry, err error) error {
 
-		if err != nil {
-			// Ignore unreadable directories/files and continue.
+		if err == nil {
+
+			if entry.IsDir() && entry.Name() == ".git" {
+
+				found[filepath.Dir(path)] = true
+
+				return filepath.SkipDir
+
+			} else {
+				return nil
+			}
+
+		} else {
 			return nil
 		}
 
-		if d.IsDir() && d.Name() == ".git" {
-
-			repositories = append(repositories, filepath.Dir(path))
-			return filepath.SkipDir
-
-		}
-
-		return nil
-
 	})
+
+	repositories := make([]string, 0)
+
+	for path, _ := range found {
+		repositories = append(repositories, path)
+	}
 
 	return repositories
 

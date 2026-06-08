@@ -12,15 +12,19 @@ func Fix(repo string) bool {
 		result = false
 	}
 
-	if tmp := FixNode(repo); tmp == false {
-		result = false
-	}
-
 	if tmp := FixCursor(repo); tmp == false {
 		result = false
 	}
 
 	if tmp := FixVSCode(repo); tmp == false {
+		result = false
+	}
+
+	if tmp := FixComposer(repo); tmp == false {
+		result = false
+	}
+
+	if tmp := FixNode(repo); tmp == false {
 		result = false
 	}
 

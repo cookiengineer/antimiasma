@@ -9,7 +9,8 @@ import "sort"
 func Discover(root string) {
 
 	repositories := utils_fs.ScanRepositories(root)
-	infected := make([]string, 0)
+	packages     := utils_fs.ScanPackages(root)
+	infected     := make([]string, 0)
 
 	for _, repository := range repositories {
 
@@ -19,12 +20,20 @@ func Discover(root string) {
 
 	}
 
+	for _, pkg := range packages {
+
+		if utils_miasma.IsInfected(pkg) {
+			infected = append(infected, pkg)
+		}
+
+	}
+
 	if len(infected) > 0 {
 
 		sort.Strings(infected)
 
-		for _, repository := range infected {
-			fmt.Fprintf(os.Stdout, "[!] MIASMA WORM FOUND in %s\n", repository)
+		for _, path := range infected {
+			fmt.Fprintf(os.Stdout, "[!] MIASMA WORM FOUND in %s\n", path)
 		}
 
 		fmt.Fprintf(os.Stdout, "\n")

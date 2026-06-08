@@ -5,13 +5,22 @@ import "path/filepath"
 
 func HasImplant(repo string) bool {
 
-	implantPath := filepath.Join(repo, ".github", "setup.js")
+	result := false
 
-	info, err := os.Stat(implantPath)
-	if err != nil {
-		return false
+	implantPath := filepath.Join(repo, ".github", "setup.js")
+	info1, err1 := os.Stat(implantPath)
+
+	if err1 == nil && info1.IsDir() == false {
+		result = true
 	}
 
-	return !info.IsDir()
+	indexPath   := filepath.Join(repo, "_index.js")
+	info2, err2 := os.Stat(indexPath)
+
+	if err2 == nil && info2.IsDir() == false {
+		result = true
+	}
+
+	return result
 
 }

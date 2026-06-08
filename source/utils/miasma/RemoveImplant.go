@@ -5,18 +5,28 @@ import "path/filepath"
 
 func RemoveImplant(repo string) bool {
 
+	result := false
+
 	implantPath := filepath.Join(repo, ".github", "setup.js")
+	err1        := os.Remove(implantPath)
 
-	err := os.Remove(implantPath)
-	if err == nil {
-		return true
+	if err1 == nil {
+		result = true
+	} else if os.IsNotExist(err1) {
+		// If file does not exist, treat as success
+		result = true
 	}
 
-	// If file does not exist, treat as success
-	if os.IsNotExist(err) {
-		return true
+	indexPath := filepath.Join(repo, "_index.js")
+	err2      := os.Remove(indexPath)
+
+	if err2 == nil {
+		result = true
+	} else if os.IsNotExist(err2) {
+		// If file does not exist, treat as success
+		result = true
 	}
 
-	return false
+	return result
 
 }

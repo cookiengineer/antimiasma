@@ -9,12 +9,21 @@ import "sort"
 func Mitigate(root string) {
 
 	repositories := utils_fs.ScanRepositories(root)
-	infected := make([]string, 0)
+	packages     := utils_fs.ScanPackages(root)
+	infected     := make([]string, 0)
 
 	for _, repository := range repositories {
 
 		if utils_miasma.IsInfected(repository) {
 			infected = append(infected, repository)
+		}
+
+	}
+
+	for _, pkg := range packages {
+
+		if utils_miasma.IsInfected(pkg) {
+			infected = append(infected, pkg)
 		}
 
 	}
@@ -25,15 +34,15 @@ func Mitigate(root string) {
 
 		unfixed := make([]string, 0)
 
-		for _, repository := range infected {
+		for _, path := range infected {
 
-			fixed := utils_miasma.Fix(repository)
+			is_fixed := utils_miasma.Fix(path)
 
-			if fixed == true {
-				fmt.Fprintf(os.Stdout, "    Miasma worm removed from %s\n", repository)
+			if is_fixed == true {
+				fmt.Fprintf(os.Stdout, "    Miasma worm removed from %s\n", path)
 			} else {
-				unfixed = append(unfixed, repository)
-				fmt.Fprintf(os.Stdout, "[!] MIASMA WORM REMAINED in %s\n", repository)
+				unfixed = append(unfixed, path)
+				fmt.Fprintf(os.Stdout, "[!] MIASMA WORM REMAINED in %s\n", path)
 			}
 
 		}
