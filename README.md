@@ -63,11 +63,11 @@ engineer it and add support for removal. Thank you!
 | Gemini        | IDE           | `.gemini/settings.json`       | executes on Gemini session start                | [x]      | [x]      |
 | VSCode        | IDE           | `.vscode/tasks.json`          | executes when opening repo or folder in VS Code | [x]      | [x]      |
 | Composer      | PHP Packages  | `composer.json`               | executes on `composer run` script               | [x]      | [x]      |
-| Go            | Go Packages   | `go.mod`                      | executes on `go generate` and `go build`        | TODO     | TODO     |
+| Go            | Go Packages   | `go.mod`                      | executes on `go generate` and `go build`        | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) |
 | NPM           | NPM Packages  | `package.json`                | executes on `npx` or `npm run` script           | [x]      | [x]      |
-| PIP           | PyPI Packages | `*-setup.pth` and `_index.js` | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
+| PIP           | PyPI Packages | `*-setup.pth`                 | executes on `pip install` of dependencies       | [x]      | [x] [1]  |
 | Miasma Blight | Implant       | `.github/setup.js`            | the Miasma "Blight" campaign worm implant       | [x]      | [x]      |
-| Miasma Hades  | Implant       | `_setup.js`                   | the Miasma "Hades" campaign worm implant        | [x]      | [x]      |
+| Miasma Hades  | Implant       | `_index.js`                   | the Miasma "Hades" campaign worm implant        | [x]      | [x]      |
 
 [1] `pip install` commands use compressed `whl` files for distribution. The `*-setup.pth` cannot be detected.
     Only after an infected package already ran the malware payload, the Miasma implant can be removed.
