@@ -91,11 +91,21 @@ inside the [exocomp](https://github.com/cookiengineer/exocomp) Agentic Environme
 
 ### Reading Material
 
+Miasma Blight Campaign:
+
 - https://access.redhat.com/security/vulnerabilities/RHSB-2026-006
 - https://safedep.io/miasma-worm-ai-coding-agent-config-injection/
+
+Miasma Hades Campaign:
+
 - https://socket.dev/blog/shai-hulud-descends-to-hades-miasma-pypi-wave
 - https://socket.dev/blog/mini-shai-hulud-miasma-and-hades-worms-target-bioinformatics-and-mcp-developers-via-malicious
 - https://www.stepsecurity.io/blog/miasma-worm-hits-microsoft-again-azure-functions-action-and-72-other-repositories-disabled-after-supply-chain-attack-targeting-ai-coding-agents
+
+Miasma Atomic Campaign:
+
+- https://ioctl.fail/preliminary-analysis-of-aur-malware/
+- https://thecybersecguru.com/news/atomic-arch-aur-supply-chain-attack-ebpf-rootkit/
 
 
 ### License
