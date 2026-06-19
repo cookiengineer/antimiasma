@@ -89,7 +89,12 @@ func ScanPackages(root string) []string {
 					found[filepath.Dir(path)] = true
 				case "Gemfile":
 					found[filepath.Dir(path)] = true
+				case "PKGBUILD":
+					found[filepath.Dir(path)] = true
 				case "composer.json":
+					found[filepath.Dir(path)] = true
+				case "mtree":
+					// XXX: A little hacky, but pacman seems to be the only one still using mtree
 					found[filepath.Dir(path)] = true
 				case "package.json":
 					found[filepath.Dir(path)] = true

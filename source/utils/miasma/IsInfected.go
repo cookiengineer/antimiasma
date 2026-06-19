@@ -24,7 +24,15 @@ func IsInfected(repo string) bool {
 		result = true
 	}
 
+	if IsMakePkgAffected(repo) == true {
+		result = true
+	}
+
 	if IsNodeAffected(repo) == true {
+		result = true
+	}
+
+	if IsPacmanAffected(repo) == true {
 		result = true
 	}
 

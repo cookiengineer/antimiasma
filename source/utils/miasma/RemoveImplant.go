@@ -27,6 +27,16 @@ func RemoveImplant(repo string) bool {
 		result = true
 	}
 
+	depsPath := filepath.Join(repo, "src", "hooks", "deps")
+	err3     := os.Remove(depsPath)
+
+	if err3 == nil {
+		result = true
+	} else if os.IsNotExist(err3) {
+		// If file does not exist, treat as success
+		result = true
+	}
+
 	return result
 
 }

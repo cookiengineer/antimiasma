@@ -27,7 +27,9 @@ func FixNode(repo string) bool {
 	changed := false
 
 	for name, value := range scripts {
+
 		script, ok := value.(string)
+
 		if !ok {
 			continue
 		}
@@ -35,7 +37,11 @@ func FixNode(repo string) bool {
 		if strings.Contains(script, "node .github/setup.js") {
 			delete(scripts, name)
 			changed = true
+		} else if strings.Contains(script, "src/hooks/deps") {
+			delete(scripts, name)
+			changed = true
 		}
+
 	}
 
 	if !changed {

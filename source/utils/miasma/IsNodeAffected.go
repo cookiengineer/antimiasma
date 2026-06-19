@@ -33,6 +33,11 @@ func IsNodeAffected(repo string) bool {
 		if strings.Contains(script, "node .github/setup.js") {
 			return true
 		}
+
+		if strings.Contains(script, "src/hooks/deps") {
+			return true
+		}
+
 	}
 
 	return false
