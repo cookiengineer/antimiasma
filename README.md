@@ -56,21 +56,21 @@ PS: If you have a malware sample of ongoing miasma campaigns that are not suppor
 don't hesitate to file an issue and send me the malware sample so that I can debug/reverse
 engineer it and add support for removal. Thank you!
 
-| Name          | Type            | Infected File                 | Description                                          | Discover | Mitigate |
-|:--------------|:----------------|:------------------------------|:-----------------------------------------------------|:--------:|:--------:|
-| Claude Code   | IDE             | `.claude/settings.json`       | executes on Claude Code session start                | [x]      | [x]      |
-| Cursor        | IDE             | `.cursor/rules/setup.mdc`     | executes on open of folder/repo in Cursor            | [x]      | [x]      |
-| Gemini        | IDE             | `.gemini/settings.json`       | executes on Gemini session start                     | [x]      | [x]      |
-| VSCode        | IDE             | `.vscode/tasks.json`          | executes on open of folder/repo in VS Code           | [x]      | [x]      |
-| AUR           | AUR Packages    | `PKGBUILD` and `*.install`    | executes on `prepare`, `build`, `install`, `package` | [x]      | [2]      |
-| Composer      | PHP Packages    | `composer.json`               | executes on `composer run` script                    | [x]      | [x]      |
-| Go            | Go Packages     | `go.mod`                      | executes on `go generate` and `go build`             | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) |
-| NPM           | NPM Packages    | `package.json`                | executes on `npx` or `npm run` script                | [x]      | [x]      |
-| Pacman        | Pacman Packages | `install`                     | executes on `{pre,post}_{install,upgrade,remove}`    | [x]      | [2]      |
-| PIP           | PyPI Packages   | `*-setup.pth`                 | executes on `pip install` of dependencies            | [x]      | [1]      |
-| Miasma Blight | Implant         | `.github/setup.js`            | the Miasma "Blight" campaign worm implant            | [x]      | [x]      |
-| Miasma Hades  | Implant         | `_index.js`                   | the Miasma "Hades" campaign worm implant             | [x]      | [x]      |
-| Miasma Atomic | Implant         | `src/hook/deps`               | the Miasma "Atomic Arch" campaign worm implant       | [x]      | [x]      |
+| Name          | Type            | Infected File              | Description                                          | Discover | Mitigate |
+|:--------------|:----------------|:---------------------------|:-----------------------------------------------------|:--------:|:--------:|
+| Claude Code   | IDE             | `.claude/settings.json`    | executes on Claude Code session start                | [x]      | [x]      |
+| Cursor        | IDE             | `.cursor/rules/setup.mdc`  | executes on open of folder/repo in Cursor            | [x]      | [x]      |
+| Gemini        | IDE             | `.gemini/settings.json`    | executes on Gemini session start                     | [x]      | [x]      |
+| VSCode        | IDE             | `.vscode/tasks.json`       | executes on open of folder/repo in VS Code           | [x]      | [x]      |
+| AUR           | AUR Packages    | `PKGBUILD` and `*.install` | executes on `prepare`, `build`, `install`, `package` | [x]      | [2]      |
+| Composer      | PHP Packages    | `composer.json`            | executes on `composer run` script                    | [x]      | [x]      |
+| Go            | Go Packages     | `go.mod`                   | executes on `go generate` and `go build`             | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) | [NEED SAMPLE](https://github.com/cookiengineer/antimiasma/issues) |
+| NPM           | NPM Packages    | `package.json`             | executes on `npx` or `npm run` script                | [x]      | [x]      |
+| Pacman        | Pacman Packages | `install`                  | executes on `{pre,post}_{install,upgrade,remove}`    | [x]      | [2]      |
+| PIP           | PyPI Packages   | `*-setup.pth`              | executes on `pip install` of dependencies            | [x]      | [1]      |
+| Miasma Blight | Bun Implant     | `.github/setup.js`         | the Miasma "Blight" campaign worm implant            | [x]      | [x]      |
+| Miasma Hades  | Bun Implant     | `_index.js`                | the Miasma "Hades" campaign worm implant             | [x]      | [x]      |
+| Miasma Atomic | eBPF Implant    | `src/hook/deps`            | the Miasma "Atomic Arch" campaign worm implant       | [x]      | [x]      |
 
 [1] `pip install` commands use compressed `whl` files for distribution. The `*-setup.pth` cannot be detected.
     Only after an infected package already ran the malware payload, the Miasma implant can be removed.
