@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -7,6 +8,8 @@ import "path/filepath"
 func IsGeminiAffected(repo string) bool {
 
 	settingsPath := filepath.Join(repo, ".gemini", "settings.json")
+
+	log.Printf("  checking Gemini: %s\n", settingsPath)
 
 	data, err := os.ReadFile(settingsPath)
 	if err != nil {

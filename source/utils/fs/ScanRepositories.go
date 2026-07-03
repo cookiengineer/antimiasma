@@ -1,9 +1,12 @@
 package fs
 
+import "antimiasma/utils/log"
 import "io/fs"
 import "path/filepath"
 
 func ScanRepositories(root string) []string {
+
+	log.Printf("scanning repositories under %s\n", root)
 
 	found := make(map[string]bool)
 
@@ -30,6 +33,7 @@ func ScanRepositories(root string) []string {
 	repositories := make([]string, 0)
 
 	for path, _ := range found {
+		log.Printf("  found repository: %s\n", path)
 		repositories = append(repositories, path)
 	}
 

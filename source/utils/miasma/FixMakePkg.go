@@ -1,10 +1,13 @@
 package miasma
 
+import "antimiasma/utils/log"
 import utils_pkgbuild "antimiasma/utils/pkgbuild"
 import "os"
 import "path/filepath"
 
 func FixMakePkg(repo string) bool {
+
+	log.Printf("  fixing AUR/PKGBUILD: %s\n", repo)
 
 	pkgbuild  := filepath.Join(repo, "PKGBUILD")
 	data, err := os.ReadFile(pkgbuild)
@@ -16,6 +19,7 @@ func FixMakePkg(repo string) bool {
 	content := string(data)
 
 	if utils_pkgbuild.HasDepends(content, "bun") {
+		log.Printf("    removed bun dependency from PKGBUILD\n")
 		content = utils_pkgbuild.RemoveDepends(content, "bun")
 	}
 
@@ -29,20 +33,22 @@ func FixMakePkg(repo string) bool {
 	for _, hook := range makepkg_hooks {
 
 		if utils_pkgbuild.HasBashCall(content, hook, "bun add") {
+			log.Printf("    removed bun add from %s()\n", hook)
 			content = utils_pkgbuild.RemoveBashCall(content, hook, "bun add")
 		}
 
 		if utils_pkgbuild.HasBashCall(content, hook, "/usr/bin/bun add") {
+			log.Printf("    removed /usr/bin/bun add from %s()\n", hook)
 			content = utils_pkgbuild.RemoveBashCall(content, hook, "/usr/bin/bun add")
 		}
 
-		// Obfuscated bash call
 		if utils_pkgbuild.HasBashCall(content, hook, "$'\\x") {
+			log.Printf("    removed obfuscated bash call from %s()\n", hook)
 			content = utils_pkgbuild.RemoveBashCall(content, hook, "$'\\x")
 		}
 
-		// Obfuscated bash call
 		if utils_pkgbuild.HasBashCall(content, hook, "$\"") {
+			log.Printf("    removed obfuscated bash call from %s()\n", hook)
 			content = utils_pkgbuild.RemoveBashCall(content, hook, "$\"")
 		}
 

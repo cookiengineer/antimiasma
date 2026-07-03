@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -8,9 +9,11 @@ func FixVSCode(repo string) bool {
 
 	tasksPath := filepath.Join(repo, ".vscode", "tasks.json")
 
+	log.Printf("  fixing VSCode: %s\n", tasksPath)
+
 	data, err := os.ReadFile(tasksPath)
 	if err != nil {
-		return true // nothing to fix
+		return true
 	}
 
 	var cfg map[string]any
@@ -20,7 +23,7 @@ func FixVSCode(repo string) bool {
 
 	rawTasks, ok := cfg["tasks"].([]any)
 	if !ok {
-		return true // nothing to fix
+		return true
 	}
 
 	changed := false
@@ -36,15 +39,17 @@ func FixVSCode(repo string) bool {
 
 		if cmd == "node .github/setup.js" {
 			changed = true
-			continue // remove this task
+			continue
 		}
 
 		cleanedTasks = append(cleanedTasks, task)
 	}
 
 	if !changed {
-		return true // already clean
+		return true
 	}
+
+	log.Printf("    cleaned tasks in %s\n", tasksPath)
 
 	cfg["tasks"] = cleanedTasks
 

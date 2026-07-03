@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -8,9 +9,11 @@ func FixClaude(repo string) bool {
 
 	settingsPath := filepath.Join(repo, ".claude", "settings.json")
 
+	log.Printf("  fixing Claude: %s\n", settingsPath)
+
 	data, err := os.ReadFile(settingsPath)
 	if err != nil {
-		return true // nothing to fix
+		return true
 	}
 
 	var settings map[string]any
@@ -20,13 +23,15 @@ func FixClaude(repo string) bool {
 
 	hooks, ok := settings["hooks"]
 	if !ok {
-		return true // nothing to fix
+		return true
 	}
 
 	cleaned, changed := removeCommand(hooks, "node .github/setup.js")
 	if !changed {
-		return true // already clean
+		return true
 	}
+
+	log.Printf("    cleaned hooks in %s\n", settingsPath)
 
 	settings["hooks"] = cleaned
 

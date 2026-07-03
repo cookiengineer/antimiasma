@@ -1,10 +1,13 @@
 package fs
 
+import "antimiasma/utils/log"
 import "io/fs"
 import "os"
 import "path/filepath"
 
 func ScanPackages(root string) []string {
+
+	log.Printf("scanning packages under %s\n", root)
 
 	found := make(map[string]bool)
 
@@ -30,7 +33,6 @@ func ScanPackages(root string) []string {
 
 						}
 
-						// Continue to scan for nested node_modules
 						return nil
 
 					} else {
@@ -69,7 +71,6 @@ func ScanPackages(root string) []string {
 
 						}
 
-						// Continue to scan for nested site-packages
 						return nil
 
 					} else {
@@ -94,7 +95,6 @@ func ScanPackages(root string) []string {
 				case "composer.json":
 					found[filepath.Dir(path)] = true
 				case "mtree":
-					// XXX: A little hacky, but pacman seems to be the only one still using mtree
 					found[filepath.Dir(path)] = true
 				case "package.json":
 					found[filepath.Dir(path)] = true
@@ -115,6 +115,7 @@ func ScanPackages(root string) []string {
 	packages := make([]string, 0)
 
 	for path, _ := range found {
+		log.Printf("  found package: %s\n", path)
 		packages = append(packages, path)
 	}
 

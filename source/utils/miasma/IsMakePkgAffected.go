@@ -1,10 +1,13 @@
 package miasma
 
+import "antimiasma/utils/log"
 import utils_pkgbuild "antimiasma/utils/pkgbuild"
 import "os"
 import "path/filepath"
 
 func IsMakePkgAffected(repo string) bool {
+
+	log.Printf("  checking AUR/PKGBUILD: %s\n", repo)
 
 	pkgbuild  := filepath.Join(repo, "PKGBUILD")
 	data, err := os.ReadFile(pkgbuild)

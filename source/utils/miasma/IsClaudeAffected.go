@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -7,6 +8,8 @@ import "path/filepath"
 func IsClaudeAffected(repo string) bool {
 
 	settingsPath := filepath.Join(repo, ".claude", "settings.json")
+
+	log.Printf("  checking Claude: %s\n", settingsPath)
 
 	data, err := os.ReadFile(settingsPath)
 	if err != nil {

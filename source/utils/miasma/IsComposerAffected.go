@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -8,6 +9,8 @@ import "strings"
 func IsComposerAffected(repo string) bool {
 
 	composerJSON := filepath.Join(repo, "composer.json")
+
+	log.Printf("  checking Composer: %s\n", composerJSON)
 
 	data, err := os.ReadFile(composerJSON)
 	if err != nil {

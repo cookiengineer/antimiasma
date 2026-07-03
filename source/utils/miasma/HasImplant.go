@@ -1,9 +1,12 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "os"
 import "path/filepath"
 
 func HasImplant(repo string) bool {
+
+	log.Printf("  checking worm implants: %s\n", repo)
 
 	result := false
 
