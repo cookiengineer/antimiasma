@@ -1,10 +1,13 @@
 package miasma
 
+import "antimiasma/utils/log"
 import utils_pkgbuild "antimiasma/utils/pkgbuild"
 import "os"
 import "path/filepath"
 
 func IsPacmanAffected(repo string) bool {
+
+	log.Printf("  checking Pacman: %s\n", repo)
 
 	install   := filepath.Join(repo, "install")
 	data, err := os.ReadFile(install)

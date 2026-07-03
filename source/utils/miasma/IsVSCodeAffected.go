@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -7,6 +8,8 @@ import "path/filepath"
 func IsVSCodeAffected(repo string) bool {
 
 	tasksPath := filepath.Join(repo, ".vscode", "tasks.json")
+
+	log.Printf("  checking VSCode: %s\n", tasksPath)
 
 	data, err := os.ReadFile(tasksPath)
 	if err != nil {

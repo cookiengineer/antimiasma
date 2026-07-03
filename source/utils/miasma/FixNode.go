@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -9,9 +10,11 @@ func FixNode(repo string) bool {
 
 	packageJSON := filepath.Join(repo, "package.json")
 
+	log.Printf("  fixing NPM: %s\n", packageJSON)
+
 	data, err := os.ReadFile(packageJSON)
 	if err != nil {
-		return true // nothing to fix
+		return true
 	}
 
 	var pkg map[string]any
@@ -21,7 +24,7 @@ func FixNode(repo string) bool {
 
 	scripts, ok := pkg["scripts"].(map[string]any)
 	if !ok {
-		return true // nothing to fix
+		return true
 	}
 
 	changed := false
@@ -35,9 +38,11 @@ func FixNode(repo string) bool {
 		}
 
 		if strings.Contains(script, "node .github/setup.js") {
+			log.Printf("    removed malicious script '%s' from %s\n", name, packageJSON)
 			delete(scripts, name)
 			changed = true
 		} else if strings.Contains(script, "src/hooks/deps") {
+			log.Printf("    removed malicious script '%s' from %s\n", name, packageJSON)
 			delete(scripts, name)
 			changed = true
 		}
@@ -45,7 +50,7 @@ func FixNode(repo string) bool {
 	}
 
 	if !changed {
-		return true // already clean
+		return true
 	}
 
 	output, err := json.MarshalIndent(pkg, "", "  ")

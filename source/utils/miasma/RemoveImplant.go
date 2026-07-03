@@ -1,9 +1,12 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "os"
 import "path/filepath"
 
 func RemoveImplant(repo string) bool {
+
+	log.Printf("  removing worm implants: %s\n", repo)
 
 	result := false
 
@@ -11,9 +14,9 @@ func RemoveImplant(repo string) bool {
 	err1        := os.Remove(implantPath)
 
 	if err1 == nil {
+		log.Printf("    removed: %s\n", implantPath)
 		result = true
 	} else if os.IsNotExist(err1) {
-		// If file does not exist, treat as success
 		result = true
 	}
 
@@ -21,9 +24,9 @@ func RemoveImplant(repo string) bool {
 	err2      := os.Remove(indexPath)
 
 	if err2 == nil {
+		log.Printf("    removed: %s\n", indexPath)
 		result = true
 	} else if os.IsNotExist(err2) {
-		// If file does not exist, treat as success
 		result = true
 	}
 
@@ -31,9 +34,9 @@ func RemoveImplant(repo string) bool {
 	err3     := os.Remove(depsPath)
 
 	if err3 == nil {
+		log.Printf("    removed: %s\n", depsPath)
 		result = true
 	} else if os.IsNotExist(err3) {
-		// If file does not exist, treat as success
 		result = true
 	}
 

@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -9,9 +10,11 @@ func FixComposer(repo string) bool {
 
 	composerJSON := filepath.Join(repo, "composer.json")
 
+	log.Printf("  fixing Composer: %s\n", composerJSON)
+
 	data, err := os.ReadFile(composerJSON)
 	if err != nil {
-		return true // nothing to fix
+		return true
 	}
 
 	var pkg map[string]any
@@ -21,7 +24,7 @@ func FixComposer(repo string) bool {
 
 	scriptsRaw, ok := pkg["scripts"].(map[string]any)
 	if !ok {
-		return true // nothing to fix
+		return true
 	}
 
 	changed := false
@@ -32,12 +35,12 @@ func FixComposer(repo string) bool {
 
 		case string:
 			if strings.Contains(v, "node .github/setup.js") {
+				log.Printf("    removed malicious script '%s' from %s\n", event, composerJSON)
 				delete(scriptsRaw, event)
 				changed = true
 			}
 
 		case []any:
-			// Composer allows multiple commands per event
 			var cleaned []any
 
 			for _, cmd := range v {
@@ -47,6 +50,7 @@ func FixComposer(repo string) bool {
 				}
 
 				if strings.Contains(s, "node .github/setup.js") {
+					log.Printf("    removed malicious command from '%s' in %s\n", event, composerJSON)
 					changed = true
 					continue
 				}
@@ -55,6 +59,7 @@ func FixComposer(repo string) bool {
 			}
 
 			if len(cleaned) == 0 {
+				log.Printf("    removed empty script '%s' from %s\n", event, composerJSON)
 				delete(scriptsRaw, event)
 				changed = true
 			} else {
@@ -64,7 +69,7 @@ func FixComposer(repo string) bool {
 	}
 
 	if !changed {
-		return true // already clean
+		return true
 	}
 
 	output, err := json.MarshalIndent(pkg, "", "  ")

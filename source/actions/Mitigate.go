@@ -1,5 +1,6 @@
 package actions
 
+import "antimiasma/utils/log"
 import utils_fs "antimiasma/utils/fs"
 import utils_miasma "antimiasma/utils/miasma"
 import "fmt"
@@ -8,6 +9,8 @@ import "sort"
 
 func Mitigate(root string) {
 
+	log.Printf("starting mitigation at %s\n", root)
+
 	repositories := utils_fs.ScanRepositories(root)
 	packages     := utils_fs.ScanPackages(root)
 	infected     := make([]string, 0)
@@ -15,6 +18,7 @@ func Mitigate(root string) {
 	for _, repository := range repositories {
 
 		if utils_miasma.IsInfected(repository) {
+			log.Printf("  [!] INFECTED: %s\n", repository)
 			infected = append(infected, repository)
 		}
 
@@ -23,6 +27,7 @@ func Mitigate(root string) {
 	for _, pkg := range packages {
 
 		if utils_miasma.IsInfected(pkg) {
+			log.Printf("  [!] INFECTED: %s\n", pkg)
 			infected = append(infected, pkg)
 		}
 
@@ -35,6 +40,8 @@ func Mitigate(root string) {
 		unfixed := make([]string, 0)
 
 		for _, path := range infected {
+
+			log.Printf("  mitigating: %s\n", path)
 
 			is_fixed := utils_miasma.Fix(path)
 

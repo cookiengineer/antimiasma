@@ -1,5 +1,6 @@
 package miasma
 
+import "antimiasma/utils/log"
 import "encoding/json"
 import "os"
 import "path/filepath"
@@ -8,6 +9,8 @@ import "strings"
 func IsNodeAffected(repo string) bool {
 
 	packageJSON := filepath.Join(repo, "package.json")
+
+	log.Printf("  checking NPM: %s\n", packageJSON)
 
 	data, err := os.ReadFile(packageJSON)
 	if err != nil {
