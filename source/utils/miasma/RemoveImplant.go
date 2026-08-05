@@ -3,40 +3,48 @@ package miasma
 import "os"
 import "path/filepath"
 
+func removeIfExists(path string) bool {
+
+	err := os.Remove(path)
+
+	if err == nil {
+		return true
+	} else if os.IsNotExist(err) {
+		// If file does not exist, treat as success
+		return true
+	}
+
+	return false
+
+}
+
 func RemoveImplant(repo string) bool {
+
+	files := []string{
+		".github/setup.js",
+		"_index.js",
+		"src/hooks/deps",
+		".claude/math_init.js",
+		".claude/setup.mjs",
+		".gemini/math_init.js",
+		".gemini/setup.mjs",
+		".vscode/math_init.js",
+		".vscode/setup.mjs",
+		"setup.mjs",
+		"Math_Symbol.js",
+	}
 
 	result := false
 
-	implantPath := filepath.Join(repo, ".github", "setup.js")
-	err1        := os.Remove(implantPath)
+	for _, file := range files {
 
-	if err1 == nil {
-		result = true
-	} else if os.IsNotExist(err1) {
-		// If file does not exist, treat as success
-		result = true
-	}
+		if removeIfExists(filepath.Join(repo, file)) {
+			result = true
+		}
 
-	indexPath := filepath.Join(repo, "_index.js")
-	err2      := os.Remove(indexPath)
-
-	if err2 == nil {
-		result = true
-	} else if os.IsNotExist(err2) {
-		// If file does not exist, treat as success
-		result = true
-	}
-
-	depsPath := filepath.Join(repo, "src", "hooks", "deps")
-	err3     := os.Remove(depsPath)
-
-	if err3 == nil {
-		result = true
-	} else if os.IsNotExist(err3) {
-		// If file does not exist, treat as success
-		result = true
 	}
 
 	return result
 
 }
+

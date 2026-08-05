@@ -23,17 +23,11 @@ func IsVSCodeAffected(repo string) bool {
 		return false
 	}
 
-	for _, t := range tasks {
-		task, ok := t.(map[string]any)
-		if !ok {
-			continue
-		}
+	return containsTasks(tasks, []string{
+		"node .github/setup.js",
+		"node .claude/setup.mjs",
+		"node .gemini/setup.mjs",
+		"node .vscode/setup.mjs",
+	})
 
-		cmd, ok := task["command"].(string)
-		if ok && cmd == "node .github/setup.js" {
-			return true
-		}
-	}
-
-	return false
 }

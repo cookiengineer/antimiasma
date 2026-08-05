@@ -18,35 +18,22 @@ func FixVSCode(repo string) bool {
 		return false
 	}
 
-	rawTasks, ok := cfg["tasks"].([]any)
+	tasks, ok := cfg["tasks"].([]any)
 	if !ok {
 		return true // nothing to fix
 	}
 
-	changed := false
-	cleanedTasks := make([]any, 0, len(rawTasks))
-
-	for _, t := range rawTasks {
-		task, ok := t.(map[string]any)
-		if !ok {
-			continue
-		}
-
-		cmd, _ := task["command"].(string)
-
-		if cmd == "node .github/setup.js" {
-			changed = true
-			continue // remove this task
-		}
-
-		cleanedTasks = append(cleanedTasks, task)
-	}
-
+	cleaned, changed := removeTasks(tasks, []string{
+		"node .github/setup.js",
+		"node .claude/setup.mjs",
+		"node .gemini/setup.mjs",
+		"node .vscode/setup.mjs",
+	})
 	if !changed {
 		return true // already clean
 	}
 
-	cfg["tasks"] = cleanedTasks
+	cfg["tasks"] = cleaned
 
 	output, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {

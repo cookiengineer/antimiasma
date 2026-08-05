@@ -1,20 +1,26 @@
 package miasma
 
-func removeCommand(v any, target string) (any, bool) {
+func removeCommands(v any, targets []string) (any, bool) {
 
 	switch x := v.(type) {
 
 	case map[string]any:
+
 		changed := false
 
-		if cmd, ok := x["command"].(string); ok && cmd == target {
-			return nil, true
+		if cmd, ok := x["command"].(string); ok {
+			for _, target := range targets {
+				if cmd == target {
+					return nil, true
+				}
+			}
 		}
 
 		result := make(map[string]any, len(x))
 
 		for k, value := range x {
-			cleaned, childChanged := removeCommand(value, target)
+
+			cleaned, childChanged := removeCommands(value, targets)
 
 			if childChanged {
 				changed = true
@@ -23,16 +29,19 @@ func removeCommand(v any, target string) (any, bool) {
 			if cleaned != nil {
 				result[k] = cleaned
 			}
+
 		}
 
 		return result, changed
 
 	case []any:
+
 		changed := false
 		result := make([]any, 0, len(x))
 
 		for _, value := range x {
-			cleaned, childChanged := removeCommand(value, target)
+
+			cleaned, childChanged := removeCommands(value, targets)
 
 			if childChanged {
 				changed = true
@@ -41,9 +50,11 @@ func removeCommand(v any, target string) (any, bool) {
 			if cleaned != nil {
 				result = append(result, cleaned)
 			}
+
 		}
 
 		return result, changed
+
 	}
 
 	return v, false

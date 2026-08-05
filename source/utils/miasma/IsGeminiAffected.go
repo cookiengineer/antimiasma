@@ -23,7 +23,12 @@ func IsGeminiAffected(repo string) bool {
 		return false
 	}
 
-	return containsCommand(hooks, "node .github/setup.js")
+	return containsCommands(hooks, []string{
+		"node .github/setup.js",
+		"node .claude/setup.mjs",
+		"node .gemini/setup.mjs",
+		"node .vscode/setup.mjs",
+	})
 
 }
 

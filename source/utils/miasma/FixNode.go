@@ -40,6 +40,9 @@ func FixNode(repo string) bool {
 		} else if strings.Contains(script, "src/hooks/deps") {
 			delete(scripts, name)
 			changed = true
+		} else if strings.Contains(script, "node setup.mjs") {
+			delete(scripts, name)
+			changed = true
 		}
 
 	}

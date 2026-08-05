@@ -38,6 +38,10 @@ func IsNodeAffected(repo string) bool {
 			return true
 		}
 
+		if strings.Contains(script, "node setup.mjs") {
+			return true
+		}
+
 	}
 
 	return false

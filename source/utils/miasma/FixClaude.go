@@ -23,7 +23,12 @@ func FixClaude(repo string) bool {
 		return true // nothing to fix
 	}
 
-	cleaned, changed := removeCommand(hooks, "node .github/setup.js")
+	cleaned, changed := removeCommands(hooks, []string{
+		"node .github/setup.js",
+		"node .claude/setup.mjs",
+		"node .gemini/setup.mjs",
+		"node .vscode/setup.mjs",
+	})
 	if !changed {
 		return true // already clean
 	}
