@@ -115,6 +115,7 @@ Miasma Atomic Campaign:
 Miasma Here We Go Again Campaign:
 
 - https://safedep.io/keyv-npm-supply-chain-compromise/
+- https://www.aikido.dev/blog/keyv-and-friends-compromised-in-npm-supply-chain-attack
 
 ### License
 
