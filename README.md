@@ -80,8 +80,14 @@ engineer it and add support for removal. Thank you!
 
 ### Notes
 
-This Mitigation Tool has been implemented with an abliterated `qwen3-coder:30b@Q8` running
+This Mitigation Tool has been prototyped with an abliterated `qwen3-coder:30b@Q8` running
 inside the [exocomp](https://github.com/cookiengineer/exocomp) Agentic Environment.
+
+The Code has been carefully reviewed and verified by [Cookie Engineer](https://cookie.engineer).
+
+Please verify its correct behavior by running it against the [Miasma Sample](https://github.com/cookiengineer/miasma-sample)
+repository which contains safe-to-test samples that use the same mechanism but don't contain
+the actual malware dropper nor worm implant.
 
 
 ### Acknowledgements

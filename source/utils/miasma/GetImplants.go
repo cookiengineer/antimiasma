@@ -1,14 +1,16 @@
 package miasma
 
+import utils_js "antimiasma/utils/js"
 import "os"
 import "path/filepath"
 
 func GetImplants(repo string) []string {
 
-	files := []string{
+	result := make([]string, 0)
+
+	scripts := []string{
 		".github/setup.js",
 		"_index.js",
-		"src/hooks/deps",
 		".claude/math_init.js",
 		".claude/setup.mjs",
 		".gemini/math_init.js",
@@ -19,14 +21,12 @@ func GetImplants(repo string) []string {
 		"Math_Symbol.js",
 	}
 
-	result := make([]string, 0)
+	for _, script := range scripts {
 
-	for _, file := range files {
+		data, err := os.ReadFile(filepath.Join(repo, script))
 
-		stat, err := os.Stat(filepath.Join(repo, file))
-
-		if err == nil && !stat.IsDir() {
-			result = append(result, file)
+		if err == nil && utils_js.IsSuspicious(data) {
+			result = append(result, script)
 		}
 
 	}

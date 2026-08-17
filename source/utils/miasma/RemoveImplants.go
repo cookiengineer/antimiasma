@@ -1,29 +1,37 @@
 package miasma
 
+import utils_elf "antimiasma/utils/elf"
+import utils_js "antimiasma/utils/js"
 import "os"
 import "path/filepath"
 
-func removeIfExists(path string) bool {
-
-	err := os.Remove(path)
-
-	if err == nil {
-		return true
-	} else if os.IsNotExist(err) {
-		// If file does not exist, treat as success
-		return true
-	}
-
-	return false
-
-}
-
 func RemoveImplants(repo string) bool {
 
-	files := []string{
+	errors := int(0)
+
+	binaries := []string{
+		"src/hooks/deps",
+	}
+
+	for _, binary := range binaries {
+
+		data, err1 := os.ReadFile(filepath.Join(repo, binary))
+
+		if err1 == nil && utils_elf.IsSuspicious(data) {
+
+			err2 := os.Remove(filepath.Join(repo, binary))
+
+			if err2 != nil {
+				errors++
+			}
+
+		}
+
+	}
+
+	scripts := []string{
 		".github/setup.js",
 		"_index.js",
-		"src/hooks/deps",
 		".claude/math_init.js",
 		".claude/setup.mjs",
 		".gemini/math_init.js",
@@ -34,17 +42,27 @@ func RemoveImplants(repo string) bool {
 		"Math_Symbol.js",
 	}
 
-	result := false
+	for _, script := range scripts {
 
-	for _, file := range files {
+		data, err1 := os.ReadFile(filepath.Join(repo, script))
 
-		if removeIfExists(filepath.Join(repo, file)) {
-			result = true
+		if err1 == nil && utils_js.IsSuspicious(data) {
+
+			err2 := os.Remove(filepath.Join(repo, script))
+
+			if err2 != nil {
+				errors++
+			}
+
 		}
 
 	}
 
-	return result
+	if errors > 0 {
+		return false
+	} else {
+		return true
+	}
 
 }
 

@@ -1,5 +1,7 @@
 package miasma
 
+import utils_elf "antimiasma/utils/elf"
+import utils_js "antimiasma/utils/js"
 import "os"
 import "path/filepath"
 
@@ -7,45 +9,41 @@ func HasImplant(repo string) bool {
 
 	result := false
 
-	implantPath := filepath.Join(repo, ".github", "setup.js")
-	info1, err1 := os.Stat(implantPath)
-
-	if err1 == nil && info1.IsDir() == false {
-		result = true
+	binaries := []string{
+		"src/hooks/deps",
 	}
 
-	indexPath   := filepath.Join(repo, "_index.js")
-	info2, err2 := os.Stat(indexPath)
+	for _, binary := range binaries {
 
-	if err2 == nil && info2.IsDir() == false {
-		result = true
+		data, err := os.ReadFile(filepath.Join(repo, binary))
+
+		if err == nil && utils_elf.IsSuspicious(data) {
+			result = true
+			break
+		}
+
 	}
 
-	depsPath    := filepath.Join(repo, "src", "hooks", "deps")
-	info3, err3 := os.Stat(depsPath)
+	scripts := []string{
+		".github/setup.js",
+		"_index.js",
+		".claude/math_init.js",
+		".claude/setup.mjs",
+		".gemini/math_init.js",
+		".gemini/setup.mjs",
+		".vscode/math_init.js",
+		".vscode/setup.mjs",
+		"setup.mjs",
+		"Math_Symbol.js",
+	}
 
-	if err3 == nil && info3.IsDir() == false {
+	for _, script := range scripts {
 
-		data, err := os.ReadFile(depsPath)
+		data, err := os.ReadFile(filepath.Join(repo, script))
 
-		if err == nil {
-
-			// ELF binary
-			if len(data) >= 4 && data[0] == 0x7f && data[1] == 'E' && data[2] == 'L' && data[3] == 'F' {
-				result = true
-			}
-
-			// embedded eBPF bytecode
-			if len(data) >= 20 && data[0] == 0x7f && data[1] == 'E' && data[2] == 'L' && data[3] == 'F' {
-
-				machine := uint16(data[18]) | uint16(data[19])<<8
-
-				if machine == 247 { // EM_BPF
-					result = true
-				}
-
-			}
-
+		if err == nil && utils_js.IsSuspicious(data) {
+			result = true
+			break
 		}
 
 	}
