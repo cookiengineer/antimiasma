@@ -32,7 +32,7 @@ func Fix(repo string) bool {
 		result = false
 	}
 
-	if tmp := RemoveImplant(repo); tmp == false {
+	if tmp := RemoveImplants(repo); tmp == false {
 		result = false
 	}
 

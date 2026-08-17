@@ -18,7 +18,7 @@ func removeIfExists(path string) bool {
 
 }
 
-func RemoveImplant(repo string) bool {
+func RemoveImplants(repo string) bool {
 
 	files := []string{
 		".github/setup.js",
