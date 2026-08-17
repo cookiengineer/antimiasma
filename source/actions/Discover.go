@@ -38,7 +38,6 @@ func Discover(root string) {
 
 		fmt.Fprintf(os.Stdout, "\n")
 		fmt.Fprintf(os.Stdout, "Execute \"antimiasma mitigate %s\" to remove the worm.\n", root)
-		fmt.Fprintf(os.Stdout, "This actions will auto-push the repositories to all configured remotes (to the currently configured branches).\n")
 		fmt.Fprintf(os.Stdout, "\n")
 
 		os.Exit(1)
