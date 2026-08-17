@@ -1,9 +1,8 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
-import "strings"
 
 func IsNodeAffected(repo string) bool {
 
@@ -15,7 +14,7 @@ func IsNodeAffected(repo string) bool {
 	}
 
 	var pkg map[string]any
-	if err := json.Unmarshal(data, &pkg); err != nil {
+	if err := utils_json.Unmarshal(data, &pkg); err != nil {
 		return false
 	}
 
@@ -24,26 +23,10 @@ func IsNodeAffected(repo string) bool {
 		return false
 	}
 
-	for _, value := range scripts {
-		script, ok := value.(string)
-		if !ok {
-			continue
-		}
-
-		if strings.Contains(script, "node .github/setup.js") {
-			return true
-		}
-
-		if strings.Contains(script, "src/hooks/deps") {
-			return true
-		}
-
-		if strings.Contains(script, "node setup.mjs") {
-			return true
-		}
-
-	}
-
-	return false
+	return utils_json.ContainsVal(scripts, []string{
+		"node .github/setup.js",
+		"src/hooks/deps",
+		"node setup.mjs",
+	})
 
 }

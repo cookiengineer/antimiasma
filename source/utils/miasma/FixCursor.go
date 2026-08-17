@@ -5,9 +5,9 @@ import "path/filepath"
 
 func FixCursor(repo string) bool {
 
-	rulesPath := filepath.Join(repo, ".cursor", "rules", "setup.mdc")
+	rules_path := filepath.Join(repo, ".cursor", "rules", "setup.mdc")
 
-	err := os.Remove(rulesPath)
+	err := os.Remove(rules_path)
 	if err == nil {
 		return true
 	}

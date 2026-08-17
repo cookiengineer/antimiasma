@@ -1,21 +1,20 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
-import "strings"
 
 func IsComposerAffected(repo string) bool {
 
-	composerJSON := filepath.Join(repo, "composer.json")
+	composer_path := filepath.Join(repo, "composer.json")
 
-	data, err := os.ReadFile(composerJSON)
+	data, err := os.ReadFile(composer_path)
 	if err != nil {
 		return false
 	}
 
 	var pkg map[string]any
-	if err := json.Unmarshal(data, &pkg); err != nil {
+	if err := utils_json.Unmarshal(data, &pkg); err != nil {
 		return false
 	}
 
@@ -24,28 +23,9 @@ func IsComposerAffected(repo string) bool {
 		return false
 	}
 
-	for _, value := range scripts {
+	return utils_json.ContainsVal(scripts, []string{
+		"node .github/setup.js",
+		"node setup.mjs",
+	})
 
-		switch v := value.(type) {
-
-		case string:
-			if strings.Contains(v, "node .github/setup.js") {
-				return true
-			}
-
-		case []any:
-			for _, cmd := range v {
-				s, ok := cmd.(string)
-				if !ok {
-					continue
-				}
-
-				if strings.Contains(s, "node .github/setup.js") {
-					return true
-				}
-			}
-		}
-	}
-
-	return false
 }

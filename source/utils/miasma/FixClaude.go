@@ -1,20 +1,20 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
 
 func FixClaude(repo string) bool {
 
-	settingsPath := filepath.Join(repo, ".claude", "settings.json")
+	settings_path := filepath.Join(repo, ".claude", "settings.json")
 
-	data, err := os.ReadFile(settingsPath)
+	data, err := os.ReadFile(settings_path)
 	if err != nil {
 		return true // nothing to fix
 	}
 
 	var settings map[string]any
-	if err := json.Unmarshal(data, &settings); err != nil {
+	if err := utils_json.Unmarshal(data, &settings); err != nil {
 		return false
 	}
 
@@ -23,7 +23,7 @@ func FixClaude(repo string) bool {
 		return true // nothing to fix
 	}
 
-	cleaned, changed := removeCommands(hooks, []string{
+	cleaned, changed := utils_json.FilterKeyVal(hooks, "command", []string{
 		"node .github/setup.js",
 		"node .claude/setup.mjs",
 		"node .gemini/setup.mjs",
@@ -35,12 +35,12 @@ func FixClaude(repo string) bool {
 
 	settings["hooks"] = cleaned
 
-	output, err := json.MarshalIndent(settings, "", "  ")
+	output, err := utils_json.Marshal(settings)
 	if err != nil {
 		return false
 	}
 
-	if err := os.WriteFile(settingsPath, output, 0644); err != nil {
+	if err := os.WriteFile(settings_path, output, 0644); err != nil {
 		return false
 	}
 

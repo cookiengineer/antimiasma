@@ -1,6 +1,6 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
 
@@ -14,7 +14,7 @@ func IsVSCodeAffected(repo string) bool {
 	}
 
 	var cfg map[string]any
-	if err := json.Unmarshal(data, &cfg); err != nil {
+	if err := utils_json.Unmarshal(data, &cfg); err != nil {
 		return false
 	}
 
@@ -23,7 +23,7 @@ func IsVSCodeAffected(repo string) bool {
 		return false
 	}
 
-	return containsTasks(tasks, []string{
+	return utils_json.ContainsKeyVal(tasks, "command", []string{
 		"node .github/setup.js",
 		"node .claude/setup.mjs",
 		"node .gemini/setup.mjs",

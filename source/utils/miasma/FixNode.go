@@ -1,21 +1,20 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
-import "strings"
 
 func FixNode(repo string) bool {
 
-	packageJSON := filepath.Join(repo, "package.json")
+	package_path := filepath.Join(repo, "package.json")
 
-	data, err := os.ReadFile(packageJSON)
+	data, err := os.ReadFile(package_path)
 	if err != nil {
 		return true // nothing to fix
 	}
 
 	var pkg map[string]any
-	if err := json.Unmarshal(data, &pkg); err != nil {
+	if err := utils_json.Unmarshal(data, &pkg); err != nil {
 		return false
 	}
 
@@ -24,39 +23,24 @@ func FixNode(repo string) bool {
 		return true // nothing to fix
 	}
 
-	changed := false
-
-	for name, value := range scripts {
-
-		script, ok := value.(string)
-
-		if !ok {
-			continue
-		}
-
-		if strings.Contains(script, "node .github/setup.js") {
-			delete(scripts, name)
-			changed = true
-		} else if strings.Contains(script, "src/hooks/deps") {
-			delete(scripts, name)
-			changed = true
-		} else if strings.Contains(script, "node setup.mjs") {
-			delete(scripts, name)
-			changed = true
-		}
-
-	}
+	cleaned, changed := utils_json.FilterVal(scripts, []string{
+		"node .github/setup.js",
+		"src/hooks/deps",
+		"node setup.mjs",
+	})
 
 	if !changed {
 		return true // already clean
 	}
 
-	output, err := json.MarshalIndent(pkg, "", "  ")
+	pkg["scripts"] = cleaned
+
+	output, err := utils_json.Marshal(pkg)
 	if err != nil {
 		return false
 	}
 
-	if err := os.WriteFile(packageJSON, output, 0644); err != nil {
+	if err := os.WriteFile(package_path, output, 0644); err != nil {
 		return false
 	}
 

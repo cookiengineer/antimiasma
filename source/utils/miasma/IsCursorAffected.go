@@ -6,9 +6,9 @@ import "strings"
 
 func IsCursorAffected(repo string) bool {
 
-	rulesPath := filepath.Join(repo, ".cursor", "rules", "setup.mdc")
+	rules_path := filepath.Join(repo, ".cursor", "rules", "setup.mdc")
 
-	data, err := os.ReadFile(rulesPath)
+	data, err := os.ReadFile(rules_path)
 	if err != nil {
 		return false
 	}

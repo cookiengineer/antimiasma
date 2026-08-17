@@ -1,20 +1,20 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
 
 func IsGeminiAffected(repo string) bool {
 
-	settingsPath := filepath.Join(repo, ".gemini", "settings.json")
+	settings_path := filepath.Join(repo, ".gemini", "settings.json")
 
-	data, err := os.ReadFile(settingsPath)
+	data, err := os.ReadFile(settings_path)
 	if err != nil {
 		return false
 	}
 
 	var settings map[string]any
-	if err := json.Unmarshal(data, &settings); err != nil {
+	if err := utils_json.Unmarshal(data, &settings); err != nil {
 		return false
 	}
 
@@ -23,7 +23,7 @@ func IsGeminiAffected(repo string) bool {
 		return false
 	}
 
-	return containsCommands(hooks, []string{
+	return utils_json.ContainsKeyVal(hooks, "command", []string{
 		"node .github/setup.js",
 		"node .claude/setup.mjs",
 		"node .gemini/setup.mjs",

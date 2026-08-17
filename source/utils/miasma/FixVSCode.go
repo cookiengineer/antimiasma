@@ -1,20 +1,20 @@
 package miasma
 
-import "encoding/json"
+import utils_json "antimiasma/utils/json"
 import "os"
 import "path/filepath"
 
 func FixVSCode(repo string) bool {
 
-	tasksPath := filepath.Join(repo, ".vscode", "tasks.json")
+	tasks_path := filepath.Join(repo, ".vscode", "tasks.json")
 
-	data, err := os.ReadFile(tasksPath)
+	data, err := os.ReadFile(tasks_path)
 	if err != nil {
 		return true // nothing to fix
 	}
 
 	var cfg map[string]any
-	if err := json.Unmarshal(data, &cfg); err != nil {
+	if err := utils_json.Unmarshal(data, &cfg); err != nil {
 		return false
 	}
 
@@ -23,7 +23,7 @@ func FixVSCode(repo string) bool {
 		return true // nothing to fix
 	}
 
-	cleaned, changed := removeTasks(tasks, []string{
+	cleaned, changed := utils_json.FilterKeyVal(tasks, "command", []string{
 		"node .github/setup.js",
 		"node .claude/setup.mjs",
 		"node .gemini/setup.mjs",
@@ -35,12 +35,12 @@ func FixVSCode(repo string) bool {
 
 	cfg["tasks"] = cleaned
 
-	output, err := json.MarshalIndent(cfg, "", "  ")
+	output, err := utils_json.Marshal(cfg)
 	if err != nil {
 		return false
 	}
 
-	if err := os.WriteFile(tasksPath, output, 0644); err != nil {
+	if err := os.WriteFile(tasks_path, output, 0644); err != nil {
 		return false
 	}
 
