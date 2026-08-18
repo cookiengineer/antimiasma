@@ -11,7 +11,8 @@ import "sort"
 func Immunize(root string, self string) {
 
 	repositories := utils_fs.ScanRepositories(root)
-	infected := make([]string, 0)
+	packages     := utils_fs.ScanPackages(root)
+	infected     := make([]string, 0)
 
 	for _, repository := range repositories {
 
@@ -19,6 +20,18 @@ func Immunize(root string, self string) {
 
 			if repository != self && utils_antimiasma.IsVaccinated(repository) == false {
 				infected = append(infected, repository)
+			}
+
+		}
+
+	}
+
+	for _, pkg := range packages {
+
+		if utils_miasma.IsInfected(pkg) {
+
+			if pkg != self && utils_antimiasma.IsVaccinated(pkg) == false {
+				infected = append(infected, pkg)
 			}
 
 		}
